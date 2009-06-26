@@ -1,0 +1,57 @@
+\documentclass{book}
+\usepackage{sstdef}
+\title{signal}
+\begin{document}
+
+\section{How to install signal}
+
+signal comes with NO WARRANTY.
+
+\subsection{System requirements}
+signal works only under UNIX.
+
+\subsection{Installation}
+If necessary, create a \cmd{/package} directory:
+\begin{code}%
+  mkdir /package
+  chmod 1755 /package
+  cd /package
+\end{code}
+
+Download the signal package.  The most recent signal package is
+\href{\package~\version}{\package-\version.tar.gz}.  Unpack signal in
+\cmd{/package}:
+\begin{code}%
+  gunzip signal-\version.tar
+  tar -xpf signal-\version.tar
+  rm signal-\version.tar
+  cd host/superscript.com/misc/signal-\version
+\end{code}
+
+Compile the package:
+\begin{code}%
+  package/compile
+\end{code}
+
+Run some tests:
+\begin{code}%
+  package/rts
+\end{code}
+The output should be empty.
+
+Install the package:
+\begin{code}%
+  package/install
+\end{code}
+
+Commands are installed in the
+\cmd{/package/host/superscript.com/command} directory.
+
+Report successful installation:
+\begin{code}%
+  package/report
+\end{code}
+
+\end{document}
+
+

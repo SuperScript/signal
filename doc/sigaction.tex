@@ -1,0 +1,31 @@
+\documentclass{book}
+\usepackage{sstdef}
+\title{signal}
+\begin{document}
+
+\section{The \cmd{sigaction} program}
+
+\subsection{Usage}
+\begin{code}%
+  sigaction [ -budi \var{sig} ] \var{prog}
+\end{code}
+where \var{prog} is one or more arguments specifying a program to run.
+
+The \cmd{sigaction} program sets signals according to the given options and then
+executes \ti{prog}.
+
+\subsection{Description}
+Each option takes a signal as its argument, accepting either a number or one of
+the (case insensitive) strings \cmd{ALRM}, \cmd{CHLD}, \cmd{CONT}, \cmd{HUP},
+\cmd{INT}, \cmd{PIPE}, or \cmd{TERM}. 
+
+Options are:
+\begin{itemize}
+\item \cmd{-b \var{sig}}: Block \cvar{sig}.
+\item \cmd{-u \var{sig}}: Unblock \cvar{sig}.
+\item \cmd{-d \var{sig}}: Set default behavior for \cvar{sig}.
+\item \cmd{-i \var{sig}}: Ignore \cvar{sig}.
+\end{itemize}
+\end{document}
+
+

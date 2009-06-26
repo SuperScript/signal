@@ -1,0 +1,43 @@
+\documentclass{book}
+\usepackage{sstdef}
+\title{signal}
+\begin{document}
+
+\section{The \cmd{sigalarm} program}
+
+\subsection{Usage}
+\begin{code}%
+  sigalarm [ -a -s \var{sig} ] \var{timeout} \var{prog}
+\end{code}
+where \cmd{timeout} is a number of seconds to wait before delivering a signal
+and \carg{prog} is one or more arguments specifying a program to run.
+
+\subsection{Description}
+The \cmd{-s} option takes a signal as an argument and accepts a number or one of
+the (case insensitive) strings \cmd{ALRM}, \cmd{CHLD}, \cmd{CONT}, \cmd{HUP},
+\cmd{INT}, \cmd{PIPE}, or \cmd{TERM}.  The last \cmd{-s} or \cmd{-a} option takes
+precedence.
+
+The \cmd{sigalarm} sets an alarm for \carg{timeout} seconds.  Options are:
+\begin{itemize}
+\item \cmd{-a \var{sig}}: Set alarm and execute \carg{prog}.
+\item \cmd{-s \var{sig}}: Fork and exec \carg{prog}.  Deliver \carg{sig} to \carg{prog}
+      if the alarm goes off.
+\end{itemize}
+The following invokations are equivalent:
+\begin{code}%
+  sigalarm \var{prog}
+  sigalarm \var{opts} -a \var{prog}
+\end{code}
+
+Under \cmd{-a}, \cmd{sigalarm} sets an alarm for \carg{timeout} seconds and
+executes \carg{prog}.  The child process inherits the alarm.  Note that
+implementations of \cmd{sleep} use the \cmd{alarm} may interact poorly with
+\cmd{sigalarm -a}.  With \cmd{-s}, \cmd{sigalarm} forks and execs \carg{prog}, and
+delivers it a \carg{sig} signal if \carg{timeout} seconds elapse before the child
+exits.  In either case, \cmd{sigalarm} exits with the same exit code as
+\carg{prog}.
+
+\end{document}
+
+

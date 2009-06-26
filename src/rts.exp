@@ -1,0 +1,42 @@
+--- sigpause prints usage for unknown option
+sigpause: illegal option -- z
+sigpause: usage: sigpause [ -budic sig -an ] [ prog ]
+100
+--- sigpause prints message for unknown signal
+sigpause: fatal: unknown signal: UNKNOWN
+100
+--- sigpause works
+0
+yes
+1
+--- sigpause prints message for unknown program
+sigpause: fatal: unable to run ./nosuchprogram:...
+111
+--- sigalarm prints usage with too few arguments
+sigalarm: usage: sigalarm [ -a -s sig ] timeout prog
+100
+--- sigalarm prints message for unknown signal
+sigalarm: fatal: unknown signal: UNKNOWN
+100
+--- sigalarm works
+yes
+1
+yes
+1
+0
+--- sigaction prints usage with too few arguments
+sigaction: usage: sigaction [ -budi sig ] prog
+sigaction: usage: sigaction [ -budi sig ] prog
+--- sigaction prints message for unknown signal
+sigaction: fatal: unknown signal: UNKNOWN
+--- sigaction executes program
+hereur
+0
+--- sigaction blocks signals
+sig_term
+0
+--- sigaction ignores signals
+sig_pipe
+0
+--- sigaction unblocks signals
+sig_term

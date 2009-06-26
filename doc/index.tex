@@ -1,0 +1,32 @@
+\documentclass{book}
+\usepackage{sstdef}
+\title{signal}
+\begin{document}
+
+\section{signal}
+
+\paragraph{\href{How to install signal}{install.html}}
+
+\paragraph{\href{The \cmd{sigaction} program}{sigaction.html}}
+
+\paragraph{\href{The \cmd{sigalarm} program}{sigalarm.html}}
+
+\paragraph{\href{The \cmd{sigpause} program}{sigpause.html}}
+
+\subsection{What is signal?}
+The signal package includes programs for manipulating signal handling from the
+command line.
+
+The \cmd{sigaction} program blocks, unblocks, ignores, or sets default behavior
+for signals and then executes a program.
+
+The \cmd{sigalarm} program sets an alarm and executes a program.  It optionally
+forks to execute the program and delivers an arbitrary signal to the child when
+the alarm goes off.
+
+The \cmd{sigpause} program blocks, unblocks, ignores, or catches signals and
+then pauses awaiting the arrival of an unblocked signal.  Upon receipt of a
+caught signal it executes a program.
+
+\end{document}
+

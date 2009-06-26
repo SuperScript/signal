@@ -1,0 +1,82 @@
+#!/bin/sh
+
+umask 022
+
+rm -rf rts-tmp
+mkdir rts-tmp
+cd rts-tmp
+
+
+# Assume:
+
+sanitize () {
+  sed 's/^\(.* fatal: .*:\)[^:]*$/\1.../'
+}
+
+try() {
+  { "$@" 2>&1; echo $?; } | sanitize
+}
+
+pausetest() {
+  signo="$1"
+  shift
+  "$@" &
+  job=$!
+  sleep 1
+  kill -$signo $job
+  wait $job
+  echo $?
+}
+
+echo '--- sigpause prints usage for unknown option'
+sigpause -z TERM echo wrong
+echo $?
+
+echo '--- sigpause prints message for unknown signal'
+sigpause -c UNKNOWN
+echo $?
+
+echo '--- sigpause works'
+pausetest CONT sigpause -c CONT
+pausetest HUP  sigpause -c HUP sh -c 'echo yes; exit 1'
+
+echo '--- sigpause prints message for unknown program'
+pausetest HUP sigpause -c HUP ./nosuchprogram 2>&1 | sanitize
+
+echo '--- sigalarm prints usage with too few arguments'
+sigalarm 10
+echo $?
+
+echo '--- sigalarm prints message for unknown signal'
+sigalarm -s UNKNOWN 10
+echo $?
+
+echo '--- sigalarm works'
+sigalarm 1 sigpause -c ALRM sh -c 'echo yes 1>&2; exit 1'
+echo $?
+sigalarm -s TERM 1 sigpause -c TERM sh -c 'echo yes 1>&2; exit 1'
+echo $?
+sigalarm -s 9 1 sigpause -na sh -c 'echo yes 1>&2; exit 1'
+echo $?
+
+echo '--- sigaction prints usage with too few arguments'
+sigaction
+sigaction -b pipe -i pipe -u pipe -d pipe 
+
+echo '--- sigaction prints message for unknown signal'
+sigaction -b UNKNOWN
+
+echo '--- sigaction executes program'
+sigaction echo hereur
+echo $?
+
+echo '--- sigaction blocks signals'
+sigalarm -s TERM 1 sigaction -b TERM sh -c "sleep 2; echo sig_term"; echo $?
+
+echo '--- sigaction ignores signals'
+sigalarm -s PIPE 1 sigaction -i Pipe sh -c "sleep 2; echo sig_pipe"; echo $?
+
+echo '--- sigaction unblocks signals'
+sigalarm -s TERM 1 sigaction -b term -u TerM sigpause -c TERM echo sig_term;
+sigalarm -s ALRM 1 sigaction -b term -u TerM sigpause -c TERM echo sig_term;
+

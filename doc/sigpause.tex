@@ -1,0 +1,34 @@
+\documentclass{book}
+\usepackage{sstdef}
+\title{signal}
+\begin{document}
+
+\section{The \cmd{sigpause} program}
+
+\subsection{Usage}
+\begin{code}%
+  sigpause [ -cdbu \var{sig} -an ] [ \var{prog} ]
+\end{code}
+where \carg{prog} is one or more arguments specifying a program to run.
+
+\subsection{Description}
+Each option that takes a signal as its argument accepts either a number or one
+of the (case insensitive) strings \cmd{ALRM}, \cmd{CHLD}, \cmd{CONT}, \cmd{HUP},
+\cmd{INT}, \cmd{PIPE}, or \cmd{TERM}. 
+
+Options are:
+\begin{itemize}
+\item \cmd{-c \var{sig}}: Catch \carg{sig} and unblock during pause.
+\item \cmd{-d \var{sig}}: Set default action for \carg{sig} and unblock during pause.
+\item \cmd{-b \var{sig}}: Block \carg{sig} during pause.
+\item \cmd{-u \var{sig}}: Unblock \carg{sig} during pause.
+\item \cmd{-a \var{sig}}: Block all signals during pause.
+\item \cmd{-n \var{sig}}: Block no signals during pause.
+\end{itemize}
+
+After processing options, \cmd{sigpause} pauses waiting for unblocked signals.
+A caught signal causes \cmd{sigpause} to execute \carg{prog}, or exit~0 in the
+absence of \carg{prog}.
+\end{document}
+
+
